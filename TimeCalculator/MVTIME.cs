@@ -1,22 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TimeCalculator
 {
-    class MVTIME: INotifyPropertyChanged
+    class MVTIME : INotifyPropertyChanged
     {
-        public decimal nbrSeconde;
+        public string nbrSecColor;
+        public int nbrSeconde;
         public string sTime;
         public const int BASE_SEC_1 = 60;
         public const int BASE_SEC_2 = 3600;
         public const int BASE_SEC_3 = 86400;
 
-        public decimal NBR_SEC
+        public string NBR_SEC_COLOR
+        {
+            get { return nbrSecColor; }
+            set { nbrSecColor = value; NotifyPropertyChanged(); }
+        }
+
+        public int NBR_SEC
         {
             get { return nbrSeconde; }
             set { nbrSeconde = value; NotifyPropertyChanged(); }
@@ -28,43 +31,49 @@ namespace TimeCalculator
             set { sTime = value; NotifyPropertyChanged(); }
         }
 
-        public void ConvertTime()
+        public void ConvertTime(bool nbrSecEmpty = false)
         {
             int nbrDays = 0;
             int nbrHours = 0;
             int nbrMins = 0;
+            int nbrSecs = 0;
+            int nbrSign;
 
-            try
-            { 
-                if (nbrSeconde >= BASE_SEC_3)  //Days 86400
-                { 
-                    nbrDays = (int) (nbrSeconde / BASE_SEC_3);
-                    nbrSeconde %= BASE_SEC_3;
-                }
-                if (nbrSeconde >= BASE_SEC_2)  //Hours 3600
-                {
-                    nbrHours = (int)(nbrSeconde / BASE_SEC_2);
-                    nbrSeconde %= BASE_SEC_2;
-                }
-                if (nbrSeconde >= BASE_SEC_1)  //Minutes 60
-                {
-                    nbrMins = (int)(nbrSeconde / BASE_SEC_1);
-                    nbrSeconde %= BASE_SEC_1;
-                }
-                //nbrSeconde contains the remaining number of secondes
-
-                S_TIME = string.Concat(nbrDays.ToString(), " Days \n", nbrHours.ToString(), " Hours \n", 
-                         nbrMins.ToString(), " Min \n", nbrSeconde.ToString(), " Sec \n");
-            }
-            catch 
+            if (!nbrSecEmpty)
             {
+                nbrSecs = Math.Abs(nbrSeconde);
+                nbrSign = nbrSeconde / nbrSecs;
+
+                if (nbrSecs >= BASE_SEC_3)  //Days 86400
+                { 
+                    nbrDays = (nbrSecs / BASE_SEC_3) * nbrSign;
+                    nbrSecs %= BASE_SEC_3;
+                }
+                if (nbrSecs >= BASE_SEC_2)  //Hours 3600
+                {
+                    nbrHours = (nbrSecs / BASE_SEC_2) * nbrSign;
+                    nbrSecs %= BASE_SEC_2;
+                }
+                if (nbrSecs >= BASE_SEC_1)  //Minutes 60
+                {
+                    nbrMins = (nbrSecs / BASE_SEC_1) * nbrSign;
+                    nbrSecs %= BASE_SEC_1;
+                }
+                //nbrSecs contains the remaining number of secondes
+                nbrSecs *= nbrSign;
+                NBR_SEC_COLOR = "Black";
+                S_TIME = string.Concat(nbrDays.ToString(), " Days \n", nbrHours.ToString(), " Hours \n", 
+                         nbrMins.ToString(), " Min \n", nbrSecs.ToString(), " Sec \n");
+            }
+            else 
+            {
+                NBR_SEC_COLOR = "Red";
                 S_TIME = "Please enter a valid number of seconds.";
             }
         }
 
         //Event Handler
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             if (PropertyChanged != null)
