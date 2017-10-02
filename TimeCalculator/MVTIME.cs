@@ -72,29 +72,25 @@ namespace TimeCalculator
             Int64 nbrHours = 0;
             Int64 nbrMins = 0;
             Int64 nbrRemSecs = 0;
-            Int64 nbrSign;
 
             if (!errorNbrSec) // if no errors
             {
-                nbrRemSecs = Math.Abs(nbrSeconde);
-                //to handle negative values, return 1 if nbrseconde = 0; otherwise, get the sign
-                nbrSign = (nbrSeconde == 0 ?  1:(nbrSeconde / nbrRemSecs)); 
+                nbrRemSecs = nbrSeconde;
 
                 //Days 86400 
-                nbrDays = (nbrRemSecs / SEC_IN_DAY) * nbrSign;
+                nbrDays = (nbrRemSecs / SEC_IN_DAY);
                 nbrRemSecs %= SEC_IN_DAY;
                 //Hours 3600
-                nbrHours = (nbrRemSecs / SEC_IN_HOUR) * nbrSign;
+                nbrHours = (nbrRemSecs / SEC_IN_HOUR);
                 nbrRemSecs %= SEC_IN_HOUR;
                 //Minutes 60
-                nbrMins = (nbrRemSecs / SEC_IN_MIN) * nbrSign;
+                nbrMins = (nbrRemSecs / SEC_IN_MIN);
                 nbrRemSecs %= SEC_IN_MIN;
 
-                //nbrRemSecs contains the remaining number of secondes
-                nbrRemSecs *= nbrSign;
+                //nbrRemSecs contains the remaining number of secondes               
                 DISP_TIME_COLOR = "Black";
                 DISP_TIME = string.Concat(nbrDays.ToString(), " Days \n", nbrHours.ToString(), " Hours \n", 
-                         nbrMins.ToString(), " Min \n", nbrRemSecs.ToString(), " Sec \n");
+                                          nbrMins.ToString(), " Min \n", nbrRemSecs.ToString(), " Sec \n");
             }
             else //if errors
             {
