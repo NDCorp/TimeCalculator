@@ -1,4 +1,13 @@
-﻿using System;
+﻿/* TEAM ONE: TIME CALCULATOR
+ * Shane Frost - 5600861
+ * Jeewan Kalia - 8032997
+ * Mireille Tabod Epse Nubaga - 6542864
+ * Abhishek Sharma - 7719818
+ * Edward Barber - 7925969
+ * Joseph Kasumba - 8147696 
+ */
+
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -6,69 +15,89 @@ namespace TimeCalculator
 {
     class MVTIME : INotifyPropertyChanged
     {
-        public string nbrSecColor;
+        public string dispTimeColor;
         public int nbrSeconde;
-        public string sTime;
-        public const int BASE_SEC_1 = 60;
-        public const int BASE_SEC_2 = 3600;
-        public const int BASE_SEC_3 = 86400;
+        public string dispTime;
+        public const int SEC_IN_MIN = 60;   
+        public const int SEC_IN_DAY = 3600;
+        public const int SEC_IN_YEAR = 86400;
+        public bool errorNbrSec;
 
-        public string NBR_SEC_COLOR
+        public string DISP_TIME_COLOR
         {
-            get { return nbrSecColor; }
-            set { nbrSecColor = value; NotifyPropertyChanged(); }
+            get 
+            { 
+                return dispTimeColor; 
+            }
+            set 
+            { 
+                dispTimeColor = value; 
+                NotifyPropertyChanged(); 
+            }
         }
 
-        public int NBR_SEC
+        public string NBR_SEC
         {
-            get { return nbrSeconde; }
-            set { nbrSeconde = value; NotifyPropertyChanged(); }
+            get 
+            { 
+                return nbrSeconde.ToString(); 
+            }
+            set 
+            { 
+                if (int.TryParse(value, out nbrSeconde))
+                    errorNbrSec = false;    //no error
+                else
+                    errorNbrSec = true;    //error
+
+                NotifyPropertyChanged(); 
+            }
         }
 
-        public string S_TIME
+        public string DISP_TIME
         {
-            get { return sTime; }
-            set { sTime = value; NotifyPropertyChanged(); }
+            get { return dispTime; }
+            set { dispTime = value; NotifyPropertyChanged(); }
         }
 
-        public void ConvertTime(bool nbrSecEmpty = false)
+        public void CalculateTime()  
         {
             int nbrDays = 0;
             int nbrHours = 0;
             int nbrMins = 0;
-            int nbrSecs = 0;
+            int nbrRemSecs = 0;
             int nbrSign;
 
-            if (!nbrSecEmpty)
+            if (!errorNbrSec) // if no errors
             {
-                nbrSecs = Math.Abs(nbrSeconde);
-                nbrSign = nbrSeconde / nbrSecs;
+                nbrRemSecs = Math.Abs(nbrSeconde);
+                //to handle negative values, return 1 if nbrseconde = 0; otherwise, get the sign
+                nbrSign = (nbrSeconde == 0 ?  1:(nbrSeconde / nbrRemSecs)); 
 
-                if (nbrSecs >= BASE_SEC_3)  //Days 86400
+                if (nbrRemSecs >= SEC_IN_YEAR)     //Days 86400
                 { 
-                    nbrDays = (nbrSecs / BASE_SEC_3) * nbrSign;
-                    nbrSecs %= BASE_SEC_3;
+                    nbrDays = (nbrRemSecs / SEC_IN_YEAR) * nbrSign;
+                    nbrRemSecs %= SEC_IN_YEAR;
                 }
-                if (nbrSecs >= BASE_SEC_2)  //Hours 3600
+                if (nbrRemSecs >= SEC_IN_DAY)      //Hours 3600
                 {
-                    nbrHours = (nbrSecs / BASE_SEC_2) * nbrSign;
-                    nbrSecs %= BASE_SEC_2;
+                    nbrHours = (nbrRemSecs / SEC_IN_DAY) * nbrSign;
+                    nbrRemSecs %= SEC_IN_DAY;
                 }
-                if (nbrSecs >= BASE_SEC_1)  //Minutes 60
+                if (nbrRemSecs >= SEC_IN_MIN)      //Minutes 60
                 {
-                    nbrMins = (nbrSecs / BASE_SEC_1) * nbrSign;
-                    nbrSecs %= BASE_SEC_1;
+                    nbrMins = (nbrRemSecs / SEC_IN_MIN) * nbrSign;
+                    nbrRemSecs %= SEC_IN_MIN;
                 }
-                //nbrSecs contains the remaining number of secondes
-                nbrSecs *= nbrSign;
-                NBR_SEC_COLOR = "Black";
-                S_TIME = string.Concat(nbrDays.ToString(), " Days \n", nbrHours.ToString(), " Hours \n", 
-                         nbrMins.ToString(), " Min \n", nbrSecs.ToString(), " Sec \n");
+                //nbrRemSecs contains the remaining number of secondes
+                nbrRemSecs *= nbrSign;
+                DISP_TIME_COLOR = "Black";
+                DISP_TIME = string.Concat(nbrDays.ToString(), " Days \n", nbrHours.ToString(), " Hours \n", 
+                         nbrMins.ToString(), " Min \n", nbrRemSecs.ToString(), " Sec \n");
             }
-            else 
+            else //if errors
             {
-                NBR_SEC_COLOR = "Red";
-                S_TIME = "Please enter a valid number of seconds.";
+                DISP_TIME_COLOR = "Red";
+                DISP_TIME = "Please enter a valid number of seconds.";
             }
         }
 
