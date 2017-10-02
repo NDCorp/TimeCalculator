@@ -16,7 +16,7 @@ namespace TimeCalculator
     class MVTIME : INotifyPropertyChanged
     {
         public string dispTimeColor;
-        public int nbrSeconde;
+        public Int64 nbrSeconde;
         public string dispTime;
         public const int SEC_IN_MIN = 60;   
         public const int SEC_IN_DAY = 3600;
@@ -44,7 +44,7 @@ namespace TimeCalculator
             }
             set 
             { 
-                if (int.TryParse(value, out nbrSeconde))
+                if (Int64.TryParse(value, out nbrSeconde))
                     errorNbrSec = false;    //no error
                 else
                     errorNbrSec = true;    //error
@@ -61,11 +61,11 @@ namespace TimeCalculator
 
         public void CalculateTime()  
         {
-            int nbrDays = 0;
-            int nbrHours = 0;
-            int nbrMins = 0;
-            int nbrRemSecs = 0;
-            int nbrSign;
+            Int64 nbrDays = 0;
+            Int64 nbrHours = 0;
+            Int64 nbrMins = 0;
+            Int64 nbrRemSecs = 0;
+            Int64 nbrSign;
 
             if (!errorNbrSec) // if no errors
             {
@@ -73,21 +73,16 @@ namespace TimeCalculator
                 //to handle negative values, return 1 if nbrseconde = 0; otherwise, get the sign
                 nbrSign = (nbrSeconde == 0 ?  1:(nbrSeconde / nbrRemSecs)); 
 
-                if (nbrRemSecs >= SEC_IN_YEAR)     //Days 86400
-                { 
-                    nbrDays = (nbrRemSecs / SEC_IN_YEAR) * nbrSign;
-                    nbrRemSecs %= SEC_IN_YEAR;
-                }
-                if (nbrRemSecs >= SEC_IN_DAY)      //Hours 3600
-                {
-                    nbrHours = (nbrRemSecs / SEC_IN_DAY) * nbrSign;
-                    nbrRemSecs %= SEC_IN_DAY;
-                }
-                if (nbrRemSecs >= SEC_IN_MIN)      //Minutes 60
-                {
-                    nbrMins = (nbrRemSecs / SEC_IN_MIN) * nbrSign;
-                    nbrRemSecs %= SEC_IN_MIN;
-                }
+                //Days 86400 
+                nbrDays = (nbrRemSecs / SEC_IN_YEAR) * nbrSign;
+                nbrRemSecs %= SEC_IN_YEAR;
+                //Hours 3600
+                nbrHours = (nbrRemSecs / SEC_IN_DAY) * nbrSign;
+                nbrRemSecs %= SEC_IN_DAY;
+                //Minutes 60
+                nbrMins = (nbrRemSecs / SEC_IN_MIN) * nbrSign;
+                nbrRemSecs %= SEC_IN_MIN;
+
                 //nbrRemSecs contains the remaining number of secondes
                 nbrRemSecs *= nbrSign;
                 DISP_TIME_COLOR = "Black";
