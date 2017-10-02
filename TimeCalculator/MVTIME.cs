@@ -19,8 +19,8 @@ namespace TimeCalculator
         public Int64 nbrSeconde;
         public string dispTime;
         public const int SEC_IN_MIN = 60;   
-        public const int SEC_IN_DAY = 3600;
-        public const int SEC_IN_YEAR = 86400;
+        public const int SEC_IN_HOUR = 3600;
+        public const int SEC_IN_DAY = 86400;
         public bool errorNbrSec;
 
         public string DISP_TIME_COLOR
@@ -55,8 +55,15 @@ namespace TimeCalculator
 
         public string DISP_TIME
         {
-            get { return dispTime; }
-            set { dispTime = value; NotifyPropertyChanged(); }
+            get 
+            {
+                return dispTime; 
+            }
+            set
+            { 
+                dispTime = value; 
+                NotifyPropertyChanged();
+            }
         }
 
         public void CalculateTime()  
@@ -74,11 +81,11 @@ namespace TimeCalculator
                 nbrSign = (nbrSeconde == 0 ?  1:(nbrSeconde / nbrRemSecs)); 
 
                 //Days 86400 
-                nbrDays = (nbrRemSecs / SEC_IN_YEAR) * nbrSign;
-                nbrRemSecs %= SEC_IN_YEAR;
-                //Hours 3600
-                nbrHours = (nbrRemSecs / SEC_IN_DAY) * nbrSign;
+                nbrDays = (nbrRemSecs / SEC_IN_DAY) * nbrSign;
                 nbrRemSecs %= SEC_IN_DAY;
+                //Hours 3600
+                nbrHours = (nbrRemSecs / SEC_IN_HOUR) * nbrSign;
+                nbrRemSecs %= SEC_IN_HOUR;
                 //Minutes 60
                 nbrMins = (nbrRemSecs / SEC_IN_MIN) * nbrSign;
                 nbrRemSecs %= SEC_IN_MIN;
