@@ -17,10 +17,7 @@ namespace TimeCalculator
 
         private void btnCalcTime_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(txtNbrSec.Text) && int.TryParse(txtNbrSec.Text, out var valid))
-                conversion.ConvertTime();       //nbrSecEmpty = false
-            else
-                conversion.ConvertTime(true);   //nbrSecEmpty = true
+            conversion.CalculateTime();       //Call the method to calculate the number of D, M, H, S
         }
     }
 }
