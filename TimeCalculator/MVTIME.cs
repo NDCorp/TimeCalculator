@@ -1,4 +1,13 @@
-﻿using System;
+﻿/* TEAM ONE: TIME CALCULATOR
+ * Shane Frost - 5600861
+ * Jeewan Kalia - 8032997
+ * Mireille Tabod Epse Nubaga - 6542864
+ * Abhishek Sharma - 7719818
+ * Edward Barber - 7925969
+ * Joseph Kasumba - 8147696 
+ */
+
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
