@@ -68,10 +68,10 @@ namespace TimeCalculator
 
         public void CalculateTime()  
         {
-            Int64 nbrDays = 0;
-            Int64 nbrHours = 0;
-            Int64 nbrMins = 0;
-            Int64 nbrRemSecs = 0;
+            Int64 nbrDays;
+            Int64 nbrHours;
+            Int64 nbrMins;
+            Int64 nbrRemSecs;
 
             if (!errorNbrSec) // if no errors
             {
