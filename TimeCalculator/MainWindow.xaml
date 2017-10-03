@@ -35,7 +35,7 @@
     <Button Grid.Column="1" Name="btnCalcTime" Content="Calculate Time" Margin="30, 10" FontSize="15" Click="BtnCalcTime_Click"/>
 
     <Viewbox Grid.Row="1" Grid.ColumnSpan="2" Margin="10">
-      <Label Name="lblShowTime" Content="{Binding DISP_TIME, Mode=OneWay}" Foreground="{Binding DISP_TIME_COLOR, Mode=OneWay}" HorizontalContentAlignment="Center"
+      <Label Name="lblShowTime" Content="{Binding DispTime, Mode=OneWay}" Foreground="{Binding DispTime_COLOR, Mode=OneWay}" HorizontalContentAlignment="Center"
              FontWeight="Bold"/>
     </Viewbox>
   </Grid>
