@@ -7,6 +7,15 @@
  * Joseph Kasumba - 8147696 
  */
 
+/* COMMENTS
+ * constant: SEC_IN_MIN
+ * public binded variables: NbrSec
+ * Other private/public variables: nbrSecond
+ * Use MVVM only for calculations and send the information to the UI to show a message or format the field in XAML
+ * He asks "we should not be too specific", but if we are not, we may misinterpret the question
+ * Design seems important to him. So try making thinks look fancier.
+ * 
+*/
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -16,14 +25,14 @@ namespace TimeCalculator
     class MVTIME : INotifyPropertyChanged
     {
         public string dispTimeColor;
-        public Int64 nbrSeconde;
+        public Int64 nbrSecond;
         public string dispTime;
         public const int SEC_IN_MIN = 60;   
         public const int SEC_IN_HOUR = 3600;
         public const int SEC_IN_DAY = 86400;
         public bool errorNbrSec;
 
-        public string DISP_TIME_COLOR
+        public string DispTimeColor
         {
             get 
             { 
@@ -36,15 +45,15 @@ namespace TimeCalculator
             }
         }
 
-        public string NBR_SEC
+        public string NbrSec
         {
             get 
             { 
-                return nbrSeconde.ToString(); 
+                return nbrSecond.ToString(); 
             }
             set 
             { 
-                if (Int64.TryParse(value, out nbrSeconde))
+                if (Int64.TryParse(value, out nbrSecond))
                     errorNbrSec = false;    //no error
                 else
                     errorNbrSec = true;    //error
@@ -53,7 +62,7 @@ namespace TimeCalculator
             }
         }
 
-        public string DISP_TIME
+        public string DispTime
         {
             get 
             {
@@ -75,7 +84,7 @@ namespace TimeCalculator
 
             if (!errorNbrSec) // if no errors
             {
-                nbrRemSecs = nbrSeconde;
+                nbrRemSecs = nbrSecond;
 
                 //Days 86400 
                 nbrDays = (nbrRemSecs / SEC_IN_DAY);
@@ -87,15 +96,15 @@ namespace TimeCalculator
                 nbrMins = (nbrRemSecs / SEC_IN_MIN);
                 nbrRemSecs %= SEC_IN_MIN;
 
-                //nbrRemSecs contains the remaining number of secondes               
-                DISP_TIME_COLOR = "Black";
-                DISP_TIME = string.Concat(nbrDays.ToString(), " Days \n", nbrHours.ToString(), " Hours \n", 
+                //nbrRemSecs contains the remaining number of seconds               
+                DispTimeColor = "Black";
+                DispTime = string.Concat(nbrDays.ToString(), " Days \n", nbrHours.ToString(), " Hours \n", 
                                           nbrMins.ToString(), " Min \n", nbrRemSecs.ToString(), " Sec \n");
             }
             else //if errors
             {
-                DISP_TIME_COLOR = "Red";
-                DISP_TIME = "Please enter a valid number of seconds.";
+                DispTimeColor = "Red";
+                DispTime = "Please enter a valid number of seconds.";
             }
         }
 
